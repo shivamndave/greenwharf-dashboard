@@ -1,0 +1,9 @@
+db_credentials.php*
+.DS_Store
+*.sh
+*.tgz
+*.tar.gz
+*.tar
+*.tar.bz2
+*.tbz
+

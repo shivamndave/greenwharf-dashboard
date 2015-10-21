@@ -1,0 +1,121 @@
+<!--Wharf.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!--Load in Highcharts and JavaScript files for Graphs-->
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+      <script src="http://code.highcharts.com/stock/highstock.src.js"></script>
+      <script src="http://code.highcharts.com/highcharts-more.js"></script>
+      <script src="http://code.highcharts.com/modules/data.js"></script>
+      <script src="http://code.highcharts.com/modules/exporting.js"></script>
+      <script src="http://timjames.me/themes/timjames.me/scripts/libs/jquery-ui-timepicker.js"></script>
+      <script src="js/batteryStatus.js"></script>
+      <script src="js/daterange.js"></script>
+      <script src="js/windSpeed.js"></script>
+      <script src="js/windDirection.js"></script>
+      <script src="js/solarIrradiance.js"></script>
+      <script src="js/energyGenerated.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/loader.css">
+      <link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+      <!--Main Style Sheet & Google Font Link-->
+      <link rel="stylesheet" type="text/css" href="stylesheet.css"> 
+      <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700|PT+Sans+Narrow:400,700|PT+Serif' rel='stylesheet' type='text/css'>
+      <!--Fonts Used: PT Sans Narrow, PT Sans, PT Serif-->
+      <title>UCSC Green Wharf Project Dashboard</title>
+   </head>
+   
+   <body>
+      <div id="topbar"></div>
+      <aside>
+         <div class="asideform">
+         <img src="titleImage.png" />
+         <h1>The Green Wharf Project</h1>
+         <h2>A City of Santa Cruz & UCSC innitiative</h2>
+         <p>The Green Wharf Project is a collaboration between the City of Santa Cruz and the University of California, Santa Cruz. We have two aims: to educate the public about sustainable energy, and to develop renewable energy sources to power the Santa Cruz Municipal Wharf.	</p>
+
+         <p>The project took shape in 2008, when discussions between the City of Santa Cruz and the University led to the idea of making the wharf energy self-sufficient.  As a first step, Prof. John Vesecky and the City’s Environmental Coordinator Ross Clark mentored a student project to design and build a pilot sensor and power generation platform. This platform collected wind, solar, and hydro information which assessed how much energy could be generated on the wharf. The student project was a success and won a Dean’s Award in the School of Engineering.  </p>		   
+
+         <a href="http://greenwharf.soe.ucsc.edu/">Read more here</a></div>
+      </aside>
+      <section>
+         <h1 id="dashtitle">Green Wharf Data Exploration</h1>
+         <div align="center" id="dateSelection">
+            <label>Pick a date range:</label>
+            <input id="start-picker" type="text" value="" readonly></input>
+            <input id="end-picker" type="text" value="" readonly></input>
+            <button id="submit-range" value="submit" onclick="reload_date_range()">Submit</button>
+         </div>
+         <table style="margin-left:auto; margin-right:auto;">
+            <tr>
+               <div align="center" class="chart" id="winddirection" style="height: 300px; margin: 0 auto"></div>
+                  <div id="followingBallsG" style="margin-left: auto; margin-right: auto">
+                     <div id="followingBallsG_1" class="followingBallsG"></div>
+                     <div id="followingBallsG_2" class="followingBallsG"></div>
+                     <div id="followingBallsG_3" class="followingBallsG"></div>
+                     <div id="followingBallsG_4" class="followingBallsG"></div>
+                  </div>
+                  <div id="wind-rose" style="display:none">
+                     <!-- Source: http://greenwharf.soe.ucsc.edu/ -->
+               </div>
+            </tr>
+            <tr>
+                  <!--Seperate each container for the wharf graphs--->
+                  <!--Wind Speed-->
+                  <div class="chart" id="windspeed" style="margin: 0 auto"></div>
+                  <!--Wind Direction-->
+            </tr>
+
+            <tr>
+                  <!--Solar Irradiance-->
+                  <div class="chart" id="solarirradiance" style="margin: 0 auto"></div>
+            </tr>
+
+            <tr>
+                  <!--Battery Status-->
+                  <div class="chart" id="batterystatus" style="margin: 0 auto"></div>
+            </tr>
+
+            <tr>
+                  <!--Energy Generated-->
+                  <div class="chart" id="energygenerated" style="margin: 0 auto"></div>
+            </tr>
+         </table>
+      </section>
+      <script>
+         var windSpeed;
+         var solarIrradiance;
+         var windDirection;
+         var batteryStatus;
+         var energyGenerated;
+         
+         $(function(){
+            $('#start-picker').datepicker({
+               maxDate: new Date()
+            });
+         });
+         $(function(){
+            $('#end-picker').datepicker({
+               maxDate: new Date()
+            });
+         });
+         
+         Highcharts.setOptions({
+            global: {
+               useUTC: false
+            }
+         });
+         
+         initial_date_range();
+         setGraphSize($("section").width(), 300);
+         
+         function setGraphSize (width, height) {
+            windSpeed.setSize(width, height);
+            solarIrradiance.setSize(width, height);
+            batteryStatus.setSize(width, height);
+            energyGenerated.setSize(width, height);
+         }
+      </script>
+   </body>
+</html>
