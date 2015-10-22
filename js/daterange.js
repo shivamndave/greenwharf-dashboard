@@ -1,4 +1,4 @@
-var GETURL ="data/history.php?";
+var GETURL ="api/history.php?";
 
 function reload_date_range() {
    showLoader (true);
