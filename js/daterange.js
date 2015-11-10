@@ -183,9 +183,7 @@ function updateCharts (data, initial) {
 function updateWindRose(data) {
    tabulateWindRose(data.windDir);
    document.getElementById('freq').remove();
-   if(windDirection) {
-      windDirection.destroy();
-   }
+   windDirection.destroy();
    setup_winddirection(data);
 }
 
