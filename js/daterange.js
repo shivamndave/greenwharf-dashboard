@@ -1,13 +1,19 @@
-var GETURL ="api/history.php?";
+var GETURL ="api/history.php?",
+    objs = [],
+    hasDataObjs = [];
 
 function reload_date_range() {
    showLoader (true);
-   var start = $( "#start-picker" ).datepicker( "getDate" ).toISOString();
-   var end = $( "#end-picker" ).datepicker( "getDate" ).toISOString();
-   var getURL = GETURL;
+   var start = $( "#start-picker" ).datepicker( "getDate" ).toISOString(),
+       end = $( "#end-picker" ).datepicker( "getDate" ).toISOString(),
+       getURL = GETURL;
    if (start) getURL += "&start="+start;
    if (end) getURL += "&end="+end;
+   objs = [];
+   hasDataObjs = [];
    $.getJSON(getURL, function(data) {
+      checkData(data);
+      toggleDisplays(objs, hasDataObjs);
       updateCharts(data, false);
       updateWindRose(data);
       showLoader (false);
@@ -177,7 +183,9 @@ function updateCharts (data, initial) {
 function updateWindRose(data) {
    tabulateWindRose(data.windDir);
    document.getElementById('freq').remove();
-   windDirection.destroy();
+   if(windDirection) {
+      windDirection.destroy();
+   }
    setup_winddirection(data);
 }
 
