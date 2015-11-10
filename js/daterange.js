@@ -86,18 +86,24 @@ function toggleDisplays(showList, hideList) {
    }
 }
 
+// Returns whether or not a name is contained
+// within the show or hide arrays.
 function showObj(hideArr, showArr, name) {
    if(hideArr.indexOf(name) > -1) {
       return false;
    } else if(showArr.indexOf(name) > -1) {
       return true;
    }
+   return false;
 }
 
+// Calls iterateData to get information
+// on if object contains data. Based on
+// response, if it has data, adds to a list
 function checkData(data) {
    var dataObj;
    for (var prop in data) {
-      dataObj = data[prop]; 
+      dataObj = data[prop];
       if(iterateData(dataObj)){
 	  hasDataObjs.push(prop)
       } else {
