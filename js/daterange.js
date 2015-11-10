@@ -55,7 +55,6 @@ function toggleDisplays(showList, hideList) {
       $("#winddirectionHide").show();
    }  
 
-
    if(showObj(showList, hideList, "turbine") &&
       showObj(showList, hideList, "divert") &&
       showObj(showList, hideList, "solar")) {
@@ -122,13 +121,16 @@ function containsStuff(dataObj) {
 	    (dataObj.length !== 0));
 }
 
-function notEmpty(dataArr) {
-   for (var num in dataArr) {			// Iterates through the numbers in a array
-      if (dataArr[num] !== 0) { 
-	return true;				// If it is nonzero, we have nonzero content, breaking and returning true
+// Checks an array contains nonzero numbers
+// Returns true if has nonzero numbers, otherwise
+// returns false
+function notEmpty(dataArray) {
+   for (var item in dataArray) {
+      if (dataArray[item] !== 0) { 
+	return true;
       }
    }
-   return false;				// Otherwise return false that there is content made up of zeros
+   return false;
 }
 
 function showLoader (show) {
