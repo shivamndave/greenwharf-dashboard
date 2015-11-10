@@ -20,24 +20,122 @@ function initial_date_range(start, end) {
    if (end) getURL += "&end="+end;
    makeCharts();
    showLoader (true);
+   objs = [];
+   hasDataObjs = [];
    $.getJSON(getURL, function(data) {
+      checkData(data);
+      toggleDisplays(objs, hasDataObjs);
       updateCharts(data, true);
       setup_winddirection(data);
       showLoader (false);
-   });
+   })
+}
+
+function toggleDisplays(showList, hideList) {
+   if(showObj(showList, hideList, "windspeed") &&
+      showObj(showList, hideList, "windDir")) {
+      $("#windspeed").show();
+      $("#windspeedHide").hide();
+   } else {
+      $("#windspeed").hide();
+      $("#windspeedHide").show();
+   }
+
+   if(showObj(showList, hideList, "windDir")) {
+      $("#winddirection").show();
+      $("#winddirectionHide").hide();
+   } else {
+      $("#winddirection").hide();
+      $("#winddirectionHide").show();
+   }  
+
+
+   if(showObj(showList, hideList, "turbine") &&
+      showObj(showList, hideList, "divert") &&
+      showObj(showList, hideList, "solar")) {
+      $("#energygenerated").show();
+      $("#energygeneratedHide").hide();
+   } else {
+      $("#energygenerated").hide();
+      $("#energygeneratedHide").show();
+   }
+
+   if(showObj(showList, hideList, "pyro")) {
+      $("#solarirradiance").show();
+      $("#solarirradianceHide").hide();
+   } else {
+      $("#solarirradiance").hide();
+      $("#solarirradianceHide").show();
+   }
+
+   if(showObj(showList, hideList, "battery")) {
+      $("#batterystatus").show();
+      $("#batterystatusHide").hide();
+   } else {
+      $("#batterystatus").hide();
+      $("#batterystatusHide").show();
+   }
+}
+
+function showObj(hideArr, showArr, name) {
+   if(hideArr.indexOf(name) > -1) {
+      return false;
+   } else if(showArr.indexOf(name) > -1) {
+      return true;
+   }
+}
+
+function checkData(data) {
+   var dataObj;
+   for (var prop in data) {
+      dataObj = data[prop]; 
+      if(iterateData(dataObj)){
+	  hasDataObjs.push(prop)
+      } else {
+         objs.push(prop);
+      }
+   }
+}
+
+function iterateData(data) {
+   var dataObj;
+   for (var prop in data) {
+      dataObj = data[prop];
+      if (Array.isArray(dataObj) &&
+	  containsStuff(dataObj)) {
+         return true;
+      } else if (!(Array.isArray(dataObj))) {
+         return iterateData(data);
+      }
+   }
+   return false;
+}
+
+function containsStuff(dataObj) {
+    return ((notEmpty(dataObj)) &&
+	    (dataObj.length !== 0));
+}
+
+function notEmpty(dataArr) {
+   for (var num in dataArr) {			// Iterates through the numbers in a array
+      if (dataArr[num] !== 0) { 
+	return true;				// If it is nonzero, we have nonzero content, breaking and returning true
+      }
+   }
+   return false;				// Otherwise return false that there is content made up of zeros
 }
 
 function showLoader (show) {
    if (show) {
-      $('.followingBallsG').show();
-      $('#winddirection').hide();
+      $("#followingBallsG").show();
+      $("#winddirection").hide();
       windSpeed.showLoading();
       solarIrradiance.showLoading();
       batteryStatus.showLoading();
       energyGenerated.showLoading();
    } else {
-      $('.followingBallsG').hide();
-      $('#winddirection').show();
+      $("#followingBallsG").hide();
+      $("#winddirection").show();
       windSpeed.hideLoading();
       solarIrradiance.hideLoading();
       batteryStatus.hideLoading();
