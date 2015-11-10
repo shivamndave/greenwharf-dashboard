@@ -102,12 +102,16 @@ function checkData(data) {
    }
 }
 
+// Recursively iterates through
+// an object and data it contains. Iterates
+// through the data's "subobjects" until a
+// nonzero array is found (returns true) otherwise
+// returns false.
 function iterateData(data) {
    var dataObj;
    for (var prop in data) {
       dataObj = data[prop];
-      if (Array.isArray(dataObj) &&
-	  containsStuff(dataObj)) {
+      if (isNonzeroArray(dataObj)) {
          return true;
       } else if (!(Array.isArray(dataObj))) {
          return iterateData(data);
@@ -116,9 +120,13 @@ function iterateData(data) {
    return false;
 }
 
-function containsStuff(dataObj) {
-    return ((notEmpty(dataObj)) &&
-	    (dataObj.length !== 0));
+// Checks if passed in data is an array, 
+// non-zero, and is of length > 0.
+// Returns if this statement is true
+function isNonzeroArray(data) {
+    return (Array.isArray(data) &&
+	    (notEmpty(data)) &&
+	    (data.length !== 0));
 }
 
 // Checks an array contains nonzero numbers
