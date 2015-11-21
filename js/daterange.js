@@ -44,8 +44,7 @@ function initial_date_range(start, end) {
 // the display is shown or hidden, and the
 // message is hidden or shown.
 function toggleDisplays(showList, hideList) {
-   if(showObj(showList, hideList, "windspeed") &&
-      showObj(showList, hideList, "windDir")) {
+   if(showObj(showList, hideList, "windSpeed")) {
       $("#windspeed").show();
       $("#windspeedHide").hide();
    } else {
