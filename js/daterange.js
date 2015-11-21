@@ -1,6 +1,6 @@
 var GETURL ="api/history.php?",
-    objs = [],
-    hasDataObjs = [];
+    hideList = [],
+    showList = [];
 
 function reload_date_range() {
    showLoader (true);
@@ -9,14 +9,15 @@ function reload_date_range() {
        getURL = GETURL;
    if (start) getURL += "&start="+start;
    if (end) getURL += "&end="+end;
-   objs = [];
-   hasDataObjs = [];
+   hideList = [];
+   showList = [];
    $.getJSON(getURL, function(data) {
       checkData(data);
-      toggleDisplays(objs, hasDataObjs);
+      console.log("Charts Shown: " + showList);
       updateCharts(data, false);
       updateWindRose(data);
       showLoader (false);
+      toggleDisplays(hideList, showList);
    });
 }
 
@@ -26,11 +27,12 @@ function initial_date_range(start, end) {
    if (end) getURL += "&end="+end;
    makeCharts();
    showLoader (true);
-   objs = [];
-   hasDataObjs = [];
+   hideList = [];
+   showList = [];
    $.getJSON(getURL, function(data) {
       checkData(data);
-      toggleDisplays(objs, hasDataObjs);
+      console.log("Charts Shown: " + showList);
+      toggleDisplays(hideList, showList);
       updateCharts(data, true);
       setup_winddirection(data);
       showLoader (false);
@@ -105,9 +107,9 @@ function checkData(data) {
    for (var prop in data) {
       dataObj = data[prop];
       if(iterateData(dataObj)){
-	  hasDataObjs.push(prop)
+	  showList.push(prop)
       } else {
-         objs.push(prop);
+         hideList.push(prop);
       }
    }
 }
