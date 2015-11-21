@@ -56,6 +56,9 @@ function toggleDisplays(showList, hideList) {
       $("#winddirection").show();
       $("#winddirectionHide").hide();
    } else {
+      if(windDirection) {
+         windDirection.destroy();
+      }
       $("#winddirection").hide();
       $("#winddirectionHide").show();
    }  
@@ -204,7 +207,5 @@ function updateCharts (data, initial) {
 function updateWindRose(data) {
    tabulateWindRose(data.windDir);
    document.getElementById('freq').remove();
-   windDirection.destroy();
    setup_winddirection(data);
 }
-
